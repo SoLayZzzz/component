@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-export 'newText.dart';
 
 class NewTextComponent extends StatelessWidget {
   const NewTextComponent({super.key});
