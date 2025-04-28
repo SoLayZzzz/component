@@ -1,5 +1,4 @@
-import 'package:component/newText.dart';
-import 'package:component/text.dart';
+import 'package:component/button.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +16,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: NewTextComponent(),
+      home: HomeScreen(),
     );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: Center(child: Button()));
   }
 }
