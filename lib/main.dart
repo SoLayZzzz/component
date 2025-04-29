@@ -1,6 +1,4 @@
-import 'package:component/button.dart';
 import 'package:component/gender_select.dart';
-import 'package:component/text.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -23,9 +21,11 @@ class MyApp extends StatelessWidget {
 }
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key, this.select = true});
+  HomeScreen({super.key});
 
-  bool select;
+  int selectedGender = 0;
+  int male = 1;
+  int female = 2;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -34,6 +34,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    void _onGenderTap(int genderValue) {
+      setState(() {
+        widget.selectedGender = genderValue;
+        print("====>> value :  ${widget.selectedGender = genderValue}");
+      });
+    }
+
     return Scaffold(
       body: Center(
         child: Row(
@@ -41,30 +48,20 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             GenderSelectOption(
               icon: Icons.male,
+              value: widget.male,
               label: 'Male',
-              selected: widget.select,
-              onTap: () => setState(() => widget.select = true),
-              // selectColor: Colors.blue,
-              // unselectColor: Colors.grey[200]!,
-              // selectTextColor: Colors.white,
-              // unselectTextColor: Colors.black,
-              // iconSize: 20,
-              // fontSize: 20,
-              // padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              groupValue: widget.selectedGender,
+              onTap: () => _onGenderTap(widget.male),
             ),
 
             SizedBox(width: 20),
 
             GenderSelectOption(
+              value: widget.female,
               icon: Icons.female,
               label: 'female',
-              selected: !widget.select,
-              onTap: () => setState(() => widget.select = false),
-              // selectColor: Colors.blue,
-              // unselectColor: Colors.grey[200]!,
-              // iconSize: 20,
-              // fontSize: 20,
-              // padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              groupValue: widget.selectedGender,
+              onTap: () => _onGenderTap(widget.female),
             ),
           ],
         ),

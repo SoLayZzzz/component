@@ -4,7 +4,8 @@ class GenderSelectOption extends StatefulWidget {
   const GenderSelectOption({
     super.key,
     this.onTap,
-    this.selected = false,
+    this.value = 0,
+    this.groupValue = 0,
     required this.icon,
     required this.label,
     this.selectColor = const Color(0xFF2C3E50),
@@ -19,7 +20,8 @@ class GenderSelectOption extends StatefulWidget {
   });
 
   final VoidCallback? onTap;
-  final bool selected;
+  final int value;
+  final int groupValue;
   final IconData icon;
   final String label;
   final Color selectColor;
@@ -37,6 +39,7 @@ class GenderSelectOption extends StatefulWidget {
 }
 
 class _GenderSelectOptionState extends State<GenderSelectOption> {
+  bool get selected => widget.value == widget.groupValue;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -45,10 +48,10 @@ class _GenderSelectOptionState extends State<GenderSelectOption> {
         duration: const Duration(milliseconds: 200),
         padding: widget.padding,
         decoration: BoxDecoration(
-          color: widget.selected ? widget.selectColor : widget.unselectColor,
+          color: selected ? widget.selectColor : widget.unselectColor,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: widget.selected ? Colors.transparent : widget.borderColor,
+            color: selected ? Colors.transparent : widget.borderColor,
             width: widget.borderWidth,
           ),
         ),
@@ -58,9 +61,7 @@ class _GenderSelectOptionState extends State<GenderSelectOption> {
             Icon(
               widget.icon,
               color:
-                  widget.selected
-                      ? widget.selectTextColor
-                      : widget.unselectTextColor,
+                  selected ? widget.selectTextColor : widget.unselectTextColor,
               size: widget.iconSize,
             ),
             const SizedBox(width: 8),
@@ -68,7 +69,7 @@ class _GenderSelectOptionState extends State<GenderSelectOption> {
               widget.label,
               style: TextStyle(
                 color:
-                    widget.selected
+                    selected
                         ? widget.selectTextColor
                         : widget.unselectTextColor,
                 fontSize: widget.fontSize,
