@@ -6,8 +6,8 @@ class GenderSelectOption extends StatefulWidget {
     this.onTap,
     this.value = 0,
     this.groupValue = 0,
-    required this.icon,
-    required this.label,
+    this.icon = Icons.male,
+    this.label = "text",
     this.selectColor = const Color(0xFF2C3E50),
     this.unselectColor = Colors.white,
     this.selectTextColor = Colors.white,
@@ -17,6 +17,7 @@ class GenderSelectOption extends StatefulWidget {
     this.padding = const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
     this.iconSize = 14,
     this.fontSize = 14,
+    this.borderRadius = const BorderRadius.all(Radius.circular(10)),
   });
 
   final VoidCallback? onTap;
@@ -33,6 +34,7 @@ class GenderSelectOption extends StatefulWidget {
   final EdgeInsets padding;
   final double iconSize;
   final double fontSize;
+  final BorderRadius borderRadius;
 
   @override
   State<GenderSelectOption> createState() => _GenderSelectOptionState();
@@ -45,11 +47,11 @@ class _GenderSelectOptionState extends State<GenderSelectOption> {
     return GestureDetector(
       onTap: widget.onTap,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 100),
         padding: widget.padding,
         decoration: BoxDecoration(
           color: selected ? widget.selectColor : widget.unselectColor,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: widget.borderRadius,
           border: Border.all(
             color: selected ? Colors.transparent : widget.borderColor,
             width: widget.borderWidth,

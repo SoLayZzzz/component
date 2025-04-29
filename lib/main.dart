@@ -34,34 +34,63 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    void _onGenderTap(int genderValue) {
+    void _onGenderTap(int index) {
       setState(() {
-        widget.selectedGender = genderValue;
-        print("====>> value :  ${widget.selectedGender = genderValue}");
+        widget.selectedGender = index;
       });
     }
 
     return Scaffold(
       body: Center(
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            GenderSelectOption(
-              icon: Icons.male,
-              value: widget.male,
-              label: 'Male',
-              groupValue: widget.selectedGender,
-              onTap: () => _onGenderTap(widget.male),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GenderSelectOption(
+                  icon: Icons.male,
+                  value: widget.male,
+                  label: 'Male',
+                  groupValue: widget.selectedGender,
+                  onTap: () => _onGenderTap(widget.male),
+                ),
+
+                SizedBox(width: 20),
+
+                GenderSelectOption(
+                  value: widget.female,
+                  icon: Icons.female,
+                  label: 'female',
+                  groupValue: widget.selectedGender,
+                  onTap: () => _onGenderTap(widget.female),
+                ),
+              ],
             ),
 
-            SizedBox(width: 20),
+            //
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GenderSelectOption(
+                  icon: Icons.male,
+                  value: widget.male,
+                  label: 'Male',
+                  groupValue: widget.selectedGender,
+                  onTap: () => _onGenderTap(widget.male),
+                ),
 
-            GenderSelectOption(
-              value: widget.female,
-              icon: Icons.female,
-              label: 'female',
-              groupValue: widget.selectedGender,
-              onTap: () => _onGenderTap(widget.female),
+                SizedBox(width: 20),
+
+                GenderSelectOption(
+                  value: widget.female,
+                  icon: Icons.female,
+                  label: 'female',
+                  groupValue: widget.selectedGender,
+                  onTap: () => _onGenderTap(widget.female),
+                ),
+              ],
             ),
           ],
         ),
