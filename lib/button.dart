@@ -4,9 +4,9 @@ class Button extends StatelessWidget {
   const Button({
     super.key,
     this.width = double.infinity,
-    this.height = 20,
+    this.height = 50,
     this.color = Colors.black,
-    this.widget,
+    this.child,
     this.border,
     this.borderRadius = BorderRadius.zero,
     this.assetImage,
@@ -19,7 +19,7 @@ class Button extends StatelessWidget {
   final double width;
   final Color color;
   final BorderRadius borderRadius;
-  final Widget? widget;
+  final Widget? child;
   final VoidCallback? onTap;
   final BoxShadow? shadow;
   final NetworkImage? networkImage;
@@ -40,12 +40,12 @@ class Button extends StatelessWidget {
           boxShadow: shadow != null ? [shadow!] : [],
           borderRadius: borderRadius,
         ),
-        child: Center(child: widget),
+        child: Center(child: child),
       ),
     );
   }
 
-  DecorationImage? _getImageDecoration() {
+  _getImageDecoration() {
     if (networkImage != null) {
       return DecorationImage(image: networkImage!);
     } else if (assetImage != null) {
