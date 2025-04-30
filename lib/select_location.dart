@@ -14,6 +14,8 @@ class SelectLocation extends StatefulWidget {
     this.text,
     this.showChooseScreen = false,
     this.onTap,
+    this.nodataIcon = Icons.close_outlined,
+    this.nodataText,
   });
 
   final bool showChooseScreen;
@@ -27,6 +29,8 @@ class SelectLocation extends StatefulWidget {
   final IconData? iconData;
   String? text;
   final VoidCallback? onTap;
+  final String? nodataText;
+  final IconData? nodataIcon;
 
   @override
   State<SelectLocation> createState() => _SelectLocationState();
@@ -45,6 +49,8 @@ class _SelectLocationState extends State<SelectLocation> {
                 locationList: widget.locationList,
                 selectedLocation: widget.text,
                 hintText: widget.text,
+                nodataIcon: widget.nodataIcon,
+                nodataText: widget.nodataText,
               ),
         ),
       );
@@ -57,23 +63,6 @@ class _SelectLocationState extends State<SelectLocation> {
     } else {
       widget.onTap?.call();
     }
-    // final result = await Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder:
-    //         (context) => ChooseScreen(
-    //           locationList: widget.locationList,
-    //           selectedLocation: widget.text,
-    //           hintText: widget.text,
-    //         ),
-    //   ),
-    // );
-
-    // if (result != null && result is String) {
-    //   setState(() {
-    //     widget.text = result;
-    //   });
-    // }
   }
 
   @override
@@ -108,16 +97,20 @@ class _SelectLocationState extends State<SelectLocation> {
 // Choose option
 
 class ChooseScreen extends StatefulWidget {
-  ChooseScreen({
+  const ChooseScreen({
     super.key,
     required this.locationList,
     this.hintText,
     this.selectedLocation,
+    this.nodataIcon,
+    this.nodataText,
   });
 
   final List<dynamic> locationList;
   final String? hintText;
   final String? selectedLocation;
+  final String? nodataText;
+  final IconData? nodataIcon;
   @override
   State<ChooseScreen> createState() => _ChooseScreenState();
 }
@@ -175,33 +168,44 @@ class _ChooseScreenState extends State<ChooseScreen> {
           SizedBox(width: 30),
         ],
       ),
-      body: Center(
-        child: ListView.builder(
-          itemCount: filteredData.length,
-          itemBuilder: (context, index) {
-            var res = filteredData[index];
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: InkWell(
-                onTap: () => _selectItem(res),
-                child: Container(
-                  width: double.infinity,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(width: 1, color: Colors.grey),
-                    ),
-                    color: Colors.transparent,
-                  ),
-                  child: Center(
-                    child: Row(children: [SizedBox(width: 10), Text(res)]),
-                  ),
+      body:
+          filteredData.isEmpty
+              ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(widget.nodataIcon, size: 50, color: Colors.grey),
+                    Text(widget.nodataText.toString()),
+                  ],
                 ),
+              )
+              : ListView.builder(
+                itemCount: filteredData.length,
+                itemBuilder: (context, index) {
+                  var res = filteredData[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: InkWell(
+                      onTap: () => _selectItem(res),
+                      child: Container(
+                        width: double.infinity,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(width: 1, color: Colors.grey),
+                          ),
+                          color: Colors.transparent,
+                        ),
+                        child: Center(
+                          child: Row(
+                            children: [SizedBox(width: 10), Text(res)],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
-            );
-          },
-        ),
-      ),
     );
   }
 }
