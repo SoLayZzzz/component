@@ -1,4 +1,7 @@
+import 'package:component/button.dart';
 import 'package:component/gender_select.dart';
+import 'package:component/select_location.dart';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -23,10 +26,6 @@ class MyApp extends StatelessWidget {
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
 
-  int selectedGender = 0;
-  int male = 1;
-  int female = 2;
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -34,65 +33,21 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    void _onGenderTap(int index) {
-      setState(() {
-        widget.selectedGender = index;
-      });
-    }
-
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GenderSelectOption(
-                  icon: Icons.male,
-                  value: widget.male,
-                  label: 'Male',
-                  groupValue: widget.selectedGender,
-                  onTap: () => _onGenderTap(widget.male),
-                ),
-
-                SizedBox(width: 20),
-
-                GenderSelectOption(
-                  value: widget.female,
-                  icon: Icons.female,
-                  label: 'female',
-                  groupValue: widget.selectedGender,
-                  onTap: () => _onGenderTap(widget.female),
-                ),
-              ],
-            ),
-
-            //
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GenderSelectOption(
-                  icon: Icons.male,
-                  value: widget.male,
-                  label: 'Male',
-                  groupValue: widget.selectedGender,
-                  onTap: () => _onGenderTap(widget.male),
-                ),
-
-                SizedBox(width: 20),
-
-                GenderSelectOption(
-                  value: widget.female,
-                  icon: Icons.female,
-                  label: 'female',
-                  groupValue: widget.selectedGender,
-                  onTap: () => _onGenderTap(widget.female),
-                ),
-              ],
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SelectLocation(
+            showChooseScreen: true,
+            text: "Choose",
+            borderRadius: BorderRadius.circular(10),
+            locationList: [
+              "Location 1",
+              "Location 2",
+              "Location 3",
+              "Location 4",
+            ],
+          ),
         ),
       ),
     );
