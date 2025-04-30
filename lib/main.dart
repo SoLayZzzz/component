@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(8.0),
           child: SelectLocation(
             showChooseScreen: true,
-            nodataText: "jhjhjjhjhjh",
+            noDataText: "jhjhjjhjhjh",
             text: "Choose",
             borderRadius: BorderRadius.circular(10),
             locationList: [

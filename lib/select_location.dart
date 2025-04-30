@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class SelectLocation extends StatefulWidget {
   SelectLocation({
     super.key,
@@ -14,8 +15,8 @@ class SelectLocation extends StatefulWidget {
     this.text,
     this.showChooseScreen = false,
     this.onTap,
-    this.nodataIcon = Icons.close_outlined,
-    this.nodataText,
+    this.noDataIcon = Icons.close_outlined,
+    this.noDataText,
   });
 
   final bool showChooseScreen;
@@ -29,16 +30,14 @@ class SelectLocation extends StatefulWidget {
   final IconData? iconData;
   String? text;
   final VoidCallback? onTap;
-  final String? nodataText;
-  final IconData? nodataIcon;
+  final String? noDataText;
+  final IconData? noDataIcon;
 
   @override
   State<SelectLocation> createState() => _SelectLocationState();
 }
 
 class _SelectLocationState extends State<SelectLocation> {
-  String selectedLocation = "Choose Location";
-
   void _navigateAndSelect() async {
     if (widget.showChooseScreen) {
       final result = await Navigator.push<String>(
@@ -49,8 +48,8 @@ class _SelectLocationState extends State<SelectLocation> {
                 locationList: widget.locationList,
                 selectedLocation: widget.text,
                 hintText: widget.text,
-                nodataIcon: widget.nodataIcon,
-                nodataText: widget.nodataText,
+                noDataIcon: widget.noDataIcon,
+                noDataText: widget.noDataText,
               ),
         ),
       );
@@ -67,7 +66,7 @@ class _SelectLocationState extends State<SelectLocation> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: _navigateAndSelect,
       child: Container(
         height: widget.height,
@@ -95,22 +94,22 @@ class _SelectLocationState extends State<SelectLocation> {
 }
 
 // Choose option
-
 class ChooseScreen extends StatefulWidget {
   const ChooseScreen({
     super.key,
     required this.locationList,
     this.hintText,
     this.selectedLocation,
-    this.nodataIcon,
-    this.nodataText,
+    this.noDataIcon,
+    this.noDataText,
   });
 
   final List<dynamic> locationList;
   final String? hintText;
   final String? selectedLocation;
-  final String? nodataText;
-  final IconData? nodataIcon;
+  final String? noDataText;
+  final IconData? noDataIcon;
+
   @override
   State<ChooseScreen> createState() => _ChooseScreenState();
 }
@@ -174,8 +173,8 @@ class _ChooseScreenState extends State<ChooseScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(widget.nodataIcon, size: 50, color: Colors.grey),
-                    Text(widget.nodataText.toString()),
+                    Icon(widget.noDataIcon, size: 50, color: Colors.grey),
+                    Text(widget.noDataText.toString()),
                   ],
                 ),
               )
