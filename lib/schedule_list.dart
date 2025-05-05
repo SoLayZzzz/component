@@ -26,7 +26,10 @@ class _ScheduleListState extends State<ScheduleList> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        border: Border.all(width: 1, color: Colors.amber),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(color: Colors.grey, offset: Offset(1, 1), blurRadius: 2),
+        ],
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
