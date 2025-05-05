@@ -1,7 +1,6 @@
-import 'package:component/button.dart';
-import 'package:component/gender_select.dart';
+import 'package:component/schedule_list.dart';
+import 'package:component/select_date.dart';
 import 'package:component/select_location.dart';
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -24,7 +23,7 @@ class MyApp extends StatelessWidget {
 }
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -37,18 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: SelectLocation(
-            showChooseScreen: true,
-            noDataText: "jhjhjjhjhjh",
-            text: "Choose",
-            borderRadius: BorderRadius.circular(10),
-            locationList: [
-              "Location 1",
-              "Location 2",
-              "Location 3",
-              "Location 4",
-            ],
-          ),
+          child: ScheduleList(),
         ),
       ),
     );
