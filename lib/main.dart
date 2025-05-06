@@ -1,6 +1,4 @@
-import 'package:component/schedule_list.dart';
-import 'package:component/select_date.dart';
-import 'package:component/select_location.dart';
+import 'package:component/text_box.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -30,7 +28,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String? selectedDate;
+  List<String> value = ["Hello", "Bye", "heh"];
+  String selectValue = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,34 +39,21 @@ class _HomeScreenState extends State<HomeScreen> {
           Center(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: SelectDate(
-                onSeclectDate: (formarttDate) {
+              child: TextComboBox(
+                showIcon: true,
+                listData: value,
+                onValueChanged: (value) {
                   setState(() {
-                    selectedDate = formarttDate;
+                    selectValue = value;
                   });
-                  print("Selected date: $formarttDate");
                 },
               ),
             ),
           ),
-
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              _postDate();
-            },
-            child: Text("OK"),
-          ),
+          //
+          Text("==>> $selectValue"),
         ],
       ),
     );
-  }
-
-  void _postDate() {
-    if (selectedDate != null) {
-      print("Posting date ===>> $selectedDate");
-    } else {
-      print("No date selected yet.");
-    }
   }
 }
