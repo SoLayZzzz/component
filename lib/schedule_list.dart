@@ -1,5 +1,4 @@
 import 'package:component/text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ScheduleList extends StatefulWidget {
@@ -10,11 +9,13 @@ class ScheduleList extends StatefulWidget {
     this.endTime = "02:00",
     this.onTap,
     this.qtyChair = 20,
+    this.buttonBackgroundColor = Colors.deepOrange,
   });
 
   final String startTime, middleTime, endTime;
   final VoidCallback? onTap;
   final int qtyChair;
+  final Color buttonBackgroundColor;
 
   @override
   State<ScheduleList> createState() => _ScheduleListState();
@@ -61,8 +62,7 @@ class _ScheduleListState extends State<ScheduleList> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text14(text: "ចំនួនកៅអីនៅសល់"),
-
-                      Text14(text: "Luxury Coaster(${widget.qtyChair})"),
+                      Text14(text: "Luxury Coaster (${widget.qtyChair})"),
                     ],
                   ),
 
@@ -107,10 +107,10 @@ class _ScheduleListState extends State<ScheduleList> {
                 GestureDetector(
                   onTap: widget.onTap,
                   child: Container(
-                    height: 40,
+                    height: 35,
                     width: 130,
                     decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: widget.buttonBackgroundColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Center(

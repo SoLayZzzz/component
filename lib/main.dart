@@ -30,15 +30,44 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String? selectedDate;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ScheduleList(),
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SelectDate(
+                onSeclectDate: (formarttDate) {
+                  setState(() {
+                    selectedDate = formarttDate;
+                  });
+                  print("Selected date: $formarttDate");
+                },
+              ),
+            ),
+          ),
+
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              _postDate();
+            },
+            child: Text("OK"),
+          ),
+        ],
       ),
     );
+  }
+
+  void _postDate() {
+    if (selectedDate != null) {
+      print("Posting date ===>> $selectedDate");
+    } else {
+      print("No date selected yet.");
+    }
   }
 }
