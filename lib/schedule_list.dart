@@ -46,7 +46,8 @@ class _ScheduleListState extends State<ScheduleList> {
               children: [
                 Text18(text: widget.startTime, fontWeight: FontWeight.w500),
                 // Text("7:00"),
-                Image.asset(widget.assetImage.toString()),
+                // Image.asset(widget.assetImage.toString()),
+                Image(image: widget.assetImage!),
                 Text18(text: widget.middleTime, fontWeight: FontWeight.w500),
                 Image.asset(widget.assetImage.toString()),
                 Text18(text: widget.endTime, fontWeight: FontWeight.w500),
