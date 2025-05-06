@@ -6,14 +6,14 @@ class TextComboBox extends StatefulWidget {
     super.key,
     this.showIcon = true,
     this.listData = const ['Apple', 'Banana', 'Orange'],
-    // this.selectedValue,
     required this.onValueChanged,
+    this.assetImage = const AssetImage("images/assets/ic_flag.png"),
   });
 
   final bool showIcon;
   final List<dynamic> listData;
-
   final Function(String) onValueChanged;
+  final AssetImage? assetImage;
 
   @override
   State<TextComboBox> createState() => _TextComboBoxState();
@@ -38,7 +38,7 @@ class _TextComboBoxState extends State<TextComboBox> {
             child: Row(
               children: [
                 if (widget.showIcon) ...[
-                  Image.asset("images/assets/ic_flag.png", width: 25),
+                  Image(image: widget.assetImage!, width: 25),
                   const SizedBox(width: 10),
                 ],
                 Expanded(
