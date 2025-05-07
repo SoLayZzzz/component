@@ -6,12 +6,12 @@ class SelectLocation extends StatefulWidget {
     super.key,
     this.borderRadius,
     this.locationList = const ["Location 1", "Location 2"],
-    this.height = 50,
+    this.height = 60,
     this.width = double.infinity,
     this.backgroundColor,
     this.borderColor = Colors.grey,
     this.borderWidth = 1,
-    this.iconData = Icons.abc,
+    this.assetImage = const AssetImage("images/assets/ic_flag.png"),
     this.text,
     this.showChooseScreen = false,
     this.onTap,
@@ -27,7 +27,7 @@ class SelectLocation extends StatefulWidget {
   final Color? backgroundColor;
   final Color? borderColor;
   final double borderWidth;
-  final IconData? iconData;
+  final AssetImage? assetImage;
   String? text;
   final VoidCallback? onTap;
   final String? noDataText;
@@ -82,7 +82,7 @@ class _SelectLocationState extends State<SelectLocation> {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Icon(widget.iconData),
+                child: Image(image: widget.assetImage!, width: 30),
               ),
               Text(widget.text.toString()),
             ],

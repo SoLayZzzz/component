@@ -1,3 +1,4 @@
+import 'package:component/select_location.dart';
 import 'package:component/text_box.dart';
 import 'package:flutter/material.dart';
 
@@ -35,24 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextComboBox(
-                showIcon: true,
-                listData: value,
-                onValueChanged: (value) {
-                  setState(() {
-                    selectValue = value;
-                  });
-                },
-              ),
-            ),
-          ),
-          //
-          Text("==>> $selectValue"),
-        ],
+        children: [SelectLocation()],
       ),
     );
   }
