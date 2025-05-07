@@ -6,7 +6,7 @@ class SelectLocation extends StatefulWidget {
     super.key,
     this.borderRadius,
     this.locationList = const ["Location 1", "Location 2"],
-    this.height = 60,
+    this.height = 65,
     this.width = double.infinity,
     this.backgroundColor,
     this.borderColor = Colors.grey,

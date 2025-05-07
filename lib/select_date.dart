@@ -2,10 +2,17 @@ import 'package:component/text.dart';
 import 'package:flutter/material.dart';
 
 class SelectDate extends StatefulWidget {
-  const SelectDate({super.key, this.onSeclectDate, this.text = "Date"});
+  const SelectDate({
+    super.key,
+    this.onSeclectDate,
+    this.text = "Date",
+    this.height = 60,
+    this.width = 160,
+  });
 
   final Function(String formarttDate)? onSeclectDate;
   final String? text;
+  final double? width, height;
 
   @override
   State<SelectDate> createState() => _SelectDateState();
@@ -49,8 +56,8 @@ class _SelectDateState extends State<SelectDate> {
         _selectDate();
       },
       child: Container(
-        height: 55,
-        width: 150,
+        height: widget.height,
+        width: widget.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           border: Border.all(width: 1, color: Colors.grey.shade400),
