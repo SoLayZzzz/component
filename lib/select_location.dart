@@ -17,6 +17,7 @@ class SelectLocation extends StatefulWidget {
     this.onTap,
     this.noDataIcon = Icons.close_outlined,
     this.noDataText,
+    this.textStyle,
   });
 
   final bool showChooseScreen;
@@ -32,6 +33,7 @@ class SelectLocation extends StatefulWidget {
   final VoidCallback? onTap;
   final String? noDataText;
   final IconData? noDataIcon;
+  final TextStyle? textStyle;
 
   @override
   State<SelectLocation> createState() => _SelectLocationState();
@@ -74,7 +76,10 @@ class _SelectLocationState extends State<SelectLocation> {
         decoration: BoxDecoration(
           color: widget.backgroundColor,
           borderRadius: widget.borderRadius,
-          border: Border.all(width: 1, color: Colors.grey),
+          border: Border.all(
+            width: widget.borderWidth,
+            color: widget.borderColor!,
+          ),
         ),
 
         child: Center(
@@ -84,7 +89,7 @@ class _SelectLocationState extends State<SelectLocation> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Image(image: widget.assetImage!, width: 30),
               ),
-              Text(widget.text.toString()),
+              Text(widget.text.toString(), style: widget.textStyle),
             ],
           ),
         ),
