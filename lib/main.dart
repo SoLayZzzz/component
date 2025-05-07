@@ -1,3 +1,4 @@
+import 'package:component/gender_select.dart';
 import 'package:component/select_location.dart';
 import 'package:component/text_box.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
             borderWidth: 10,
             textStyle: TextStyle(color: Colors.amber),
           ),
+
+          GenderSelectOption(),
         ],
       ),
     );

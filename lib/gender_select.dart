@@ -18,6 +18,7 @@ class GenderSelectOption extends StatefulWidget {
     this.iconSize = 14,
     this.fontSize = 14,
     this.borderRadius = const BorderRadius.all(Radius.circular(10)),
+    this.assetImage = const AssetImage("images/assets/ic_flag.png"),
   });
 
   final VoidCallback? onTap;
@@ -35,6 +36,7 @@ class GenderSelectOption extends StatefulWidget {
   final double iconSize;
   final double fontSize;
   final BorderRadius borderRadius;
+  final AssetImage? assetImage;
 
   @override
   State<GenderSelectOption> createState() => _GenderSelectOptionState();
@@ -60,11 +62,11 @@ class _GenderSelectOptionState extends State<GenderSelectOption> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              widget.icon,
+            Image(
+              image: widget.assetImage!,
+              width: 24,
               color:
                   selected ? widget.selectTextColor : widget.unselectTextColor,
-              size: widget.iconSize,
             ),
             const SizedBox(width: 8),
             Text(
