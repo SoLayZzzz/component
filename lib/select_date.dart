@@ -2,9 +2,10 @@ import 'package:component/text.dart';
 import 'package:flutter/material.dart';
 
 class SelectDate extends StatefulWidget {
-  const SelectDate({super.key, this.onSeclectDate});
+  const SelectDate({super.key, this.onSeclectDate, this.text = "Date"});
 
   final Function(String formarttDate)? onSeclectDate;
+  final String? text;
 
   @override
   State<SelectDate> createState() => _SelectDateState();
@@ -62,7 +63,7 @@ class _SelectDateState extends State<SelectDate> {
               text:
                   selectDate != null
                       ? '${selectDate!.year}/${selectDate!.month}/${selectDate!.day}'
-                      : 'ថ្ងៃចេញដំណើរ',
+                      : "${widget.text}",
               color: Colors.black.withAlpha(170),
             ),
           ],
