@@ -8,12 +8,14 @@ class TextComboBox extends StatefulWidget {
     this.listData = const ['Apple', 'Banana', 'Orange'],
     required this.onValueChanged,
     this.assetImage = const AssetImage("images/assets/ic_flag.png"),
+    this.height = 50,
   });
 
   final bool showIcon;
   final List<dynamic> listData;
   final Function(String) onValueChanged;
   final AssetImage? assetImage;
+  final double height;
 
   @override
   State<TextComboBox> createState() => _TextComboBoxState();
@@ -27,7 +29,7 @@ class _TextComboBoxState extends State<TextComboBox> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          height: 60,
+          height: widget.height,
           width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
