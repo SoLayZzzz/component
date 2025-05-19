@@ -15,6 +15,7 @@ class SelectLocation extends StatefulWidget {
     this.text,
     this.showChooseScreen = false,
     this.onTap,
+    this.onSelected,
     this.noDataIcon = Icons.close_outlined,
     this.noDataText,
     this.textStyle,
@@ -31,6 +32,7 @@ class SelectLocation extends StatefulWidget {
   final AssetImage? assetImage;
   String? text;
   final VoidCallback? onTap;
+  final ValueChanged<int>? onSelected; // Add this for index callback
   final String? noDataText;
   final IconData? noDataIcon;
   final TextStyle? textStyle;
@@ -40,26 +42,37 @@ class SelectLocation extends StatefulWidget {
 }
 
 class _SelectLocationState extends State<SelectLocation> {
+  late String? selectedText;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedText = widget.text;
+  }
+
   void _navigateAndSelect() async {
     if (widget.showChooseScreen) {
-      final result = await Navigator.push<String>(
+      final result = await Navigator.push<Map<String, dynamic>>(
         context,
         MaterialPageRoute(
           builder:
               (_) => ChooseScreen(
                 locationList: widget.locationList,
-                selectedLocation: widget.text,
+                selectedLocation: selectedText,
                 hintText: widget.text,
                 noDataIcon: widget.noDataIcon,
                 noDataText: widget.noDataText,
               ),
         ),
       );
-      if (result != null && result.isNotEmpty) {
+      if (result != null) {
         setState(() {
-          widget.text = result;
+          selectedText = result["value"];
+          widget.text = selectedText; // keep in sync
         });
-        widget.onTap?.call();
+        if (widget.onSelected != null) {
+          widget.onSelected!(result["index"]);
+        }
       }
     } else {
       widget.onTap?.call();
@@ -81,15 +94,23 @@ class _SelectLocationState extends State<SelectLocation> {
             color: widget.borderColor!,
           ),
         ),
-
         child: Center(
           child: Row(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Image(image: widget.assetImage!, width: 30),
+              if (widget.assetImage != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Image(image: widget.assetImage!, width: 30),
+                ),
+              Expanded(
+                child: Text(
+                  selectedText ?? '',
+                  style:
+                      widget.textStyle ??
+                      const TextStyle(color: Colors.black, fontSize: 16),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-              Text(widget.text.toString(), style: widget.textStyle),
             ],
           ),
         ),
@@ -98,7 +119,7 @@ class _SelectLocationState extends State<SelectLocation> {
   }
 }
 
-// Choose option
+// Choose option screen returning a Map with value + index
 class ChooseScreen extends StatefulWidget {
   const ChooseScreen({
     super.key,
@@ -129,21 +150,21 @@ class _ChooseScreenState extends State<ChooseScreen> {
     filteredData = widget.locationList;
   }
 
-  // For Search
   void _filterData(String query) {
     setState(() {
       filteredData =
           widget.locationList
-              .where((item) => item.toLowerCase().contains(query.toLowerCase()))
+              .where(
+                (item) =>
+                    item.toString().toLowerCase().contains(query.toLowerCase()),
+              )
               .toList();
     });
   }
 
-  // Show data in TextFiled
   void _selectItem(String value) {
-    _controller.text = value;
-    _filterData(value);
-    Navigator.pop(context, value);
+    final index = widget.locationList.indexOf(value);
+    Navigator.pop(context, {"value": value, "index": index});
   }
 
   @override
@@ -157,10 +178,9 @@ class _ChooseScreenState extends State<ChooseScreen> {
             child: TextField(
               onChanged: _filterData,
               controller: _controller,
-              keyboardType: TextInputType.emailAddress,
               autofocus: false,
               decoration: InputDecoration(
-                hintText: widget.hintText,
+                hintText: widget.hintText ?? "Search...",
                 suffixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderSide: BorderSide(width: 1, color: Colors.grey),
@@ -169,7 +189,7 @@ class _ChooseScreenState extends State<ChooseScreen> {
               ),
             ),
           ),
-          SizedBox(width: 30),
+          const SizedBox(width: 30),
         ],
       ),
       body:
@@ -179,32 +199,34 @@ class _ChooseScreenState extends State<ChooseScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(widget.noDataIcon, size: 50, color: Colors.grey),
-                    Text(widget.noDataText.toString()),
+                    const SizedBox(height: 10),
+                    Text(
+                      widget.noDataText ?? 'No data found',
+                      style: const TextStyle(color: Colors.grey),
+                    ),
                   ],
                 ),
               )
               : ListView.builder(
                 itemCount: filteredData.length,
                 itemBuilder: (context, index) {
-                  var res = filteredData[index];
+                  final value = filteredData[index];
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: InkWell(
-                      onTap: () => _selectItem(res),
+                      onTap: () => _selectItem(value.toString()),
                       child: Container(
-                        width: double.infinity,
-                        height: 60,
-                        decoration: BoxDecoration(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 15,
+                        ),
+                        decoration: const BoxDecoration(
                           border: Border(
                             bottom: BorderSide(width: 1, color: Colors.grey),
                           ),
                           color: Colors.transparent,
                         ),
-                        child: Center(
-                          child: Row(
-                            children: [SizedBox(width: 10), Text(res)],
-                          ),
-                        ),
+                        child: Text(value.toString()),
                       ),
                     ),
                   );
