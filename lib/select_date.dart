@@ -1,32 +1,54 @@
 import 'package:component/text.dart';
 import 'package:flutter/material.dart';
 
-class SelectDate extends StatefulWidget {
-  const SelectDate({
+class DatePicker extends StatefulWidget {
+  const DatePicker({
     super.key,
     this.onSeclectDate,
     this.text = "Date",
     this.height = 60,
     this.width = 160,
+    this.allowPastDates = false,
+    this.backgroundColor,
+    this.selectedDateColor,
   });
 
   final Function(String formarttDate)? onSeclectDate;
   final String? text;
   final double? width, height;
+  final bool allowPastDates;
+  final Color? backgroundColor;
+  final Color? selectedDateColor;
 
   @override
-  State<SelectDate> createState() => _SelectDateState();
+  State<DatePicker> createState() => _DatePickerState();
 }
 
-class _SelectDateState extends State<SelectDate> {
+class _DatePickerState extends State<DatePicker> {
   DateTime? selectDate;
 
   Future<void> _selectDate() async {
+    final DateTime now = DateTime.now();
+    final DateTime currentDate = DateTime(now.year, now.month, now.day);
+
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
+      initialDate: selectDate ?? DateTime.now(),
+      firstDate: widget.allowPastDates ? DateTime(2000) : currentDate,
       lastDate: DateTime(2100),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: widget.selectedDateColor ?? Colors.black,
+            ),
+            datePickerTheme: DatePickerThemeData(
+              backgroundColor: widget.backgroundColor ?? Colors.white,
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (pickedDate != null) {
