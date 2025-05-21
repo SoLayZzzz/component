@@ -5,7 +5,7 @@ class SelectLocation extends StatefulWidget {
   SelectLocation({
     super.key,
     this.borderRadius,
-    this.locationList = const ["Location 1", "Location 2"],
+    this.locationList = const [],
     this.height = 65,
     this.width = double.infinity,
     this.backgroundColor,
@@ -19,6 +19,9 @@ class SelectLocation extends StatefulWidget {
     this.noDataIcon = Icons.close_outlined,
     this.noDataText,
     this.textStyle,
+    this.isLoading = false,
+    this.isEnabled = true,
+    this.hintText,
   });
 
   final bool showChooseScreen;
@@ -32,10 +35,13 @@ class SelectLocation extends StatefulWidget {
   final AssetImage? assetImage;
   String? text;
   final VoidCallback? onTap;
-  final ValueChanged<int>? onSelected; // Add this for index callback
+  final ValueChanged<int>? onSelected;
   final String? noDataText;
   final IconData? noDataIcon;
   final TextStyle? textStyle;
+  final bool isLoading;
+  final bool isEnabled;
+  final String? hintText;
 
   @override
   State<SelectLocation> createState() => _SelectLocationState();
@@ -51,7 +57,11 @@ class _SelectLocationState extends State<SelectLocation> {
   }
 
   void _navigateAndSelect() async {
+    if (!widget.isEnabled || widget.isLoading) return;
+
     if (widget.showChooseScreen) {
+      if (widget.locationList.isEmpty) return;
+
       final result = await Navigator.push<Map<String, dynamic>>(
         context,
         MaterialPageRoute(
@@ -59,20 +69,19 @@ class _SelectLocationState extends State<SelectLocation> {
               (_) => ChooseScreen(
                 locationList: widget.locationList,
                 selectedLocation: selectedText,
-                hintText: widget.text,
+                hintText: widget.hintText ?? widget.text,
                 noDataIcon: widget.noDataIcon,
                 noDataText: widget.noDataText,
               ),
         ),
       );
-      if (result != null) {
+
+      if (result != null && mounted) {
         setState(() {
           selectedText = result["value"];
-          widget.text = selectedText; // keep in sync
+          widget.text = selectedText;
         });
-        if (widget.onSelected != null) {
-          widget.onSelected!(result["index"]);
-        }
+        widget.onSelected?.call(result["index"]);
       }
     } else {
       widget.onTap?.call();
@@ -81,6 +90,14 @@ class _SelectLocationState extends State<SelectLocation> {
 
   @override
   Widget build(BuildContext context) {
+    final effectiveTextStyle =
+        widget.textStyle ??
+        TextStyle(
+          color:
+              widget.isEnabled ? Colors.black : Colors.black.withOpacity(0.5),
+          fontSize: 16,
+        );
+
     return GestureDetector(
       onTap: _navigateAndSelect,
       child: Container(
@@ -100,17 +117,36 @@ class _SelectLocationState extends State<SelectLocation> {
               if (widget.assetImage != null)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Image(image: widget.assetImage!, width: 30),
+                  child: Image(
+                    image: widget.assetImage!,
+                    width: 30,
+                    color: widget.isEnabled ? null : Colors.grey,
+                  ),
                 ),
               Expanded(
-                child: Text(
-                  selectedText ?? '',
-                  style:
-                      widget.textStyle ??
-                      const TextStyle(color: Colors.black, fontSize: 16),
-                  overflow: TextOverflow.ellipsis,
-                ),
+                child:
+                    widget.isLoading
+                        ? const Padding(
+                          padding: EdgeInsets.only(right: 20),
+                          child: SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        )
+                        : Text(
+                          selectedText ?? widget.hintText ?? '',
+                          style: effectiveTextStyle,
+                          overflow: TextOverflow.ellipsis,
+                        ),
               ),
+              if (!widget.isLoading &&
+                  widget.showChooseScreen &&
+                  widget.isEnabled)
+                const Padding(
+                  padding: EdgeInsets.only(right: 20),
+                  child: Icon(Icons.arrow_drop_down, color: Colors.grey),
+                ),
             ],
           ),
         ),
@@ -119,7 +155,6 @@ class _SelectLocationState extends State<SelectLocation> {
   }
 }
 
-// Choose option screen returning a Map with value + index
 class ChooseScreen extends StatefulWidget {
   const ChooseScreen({
     super.key,
@@ -148,6 +183,15 @@ class _ChooseScreenState extends State<ChooseScreen> {
   void initState() {
     super.initState();
     filteredData = widget.locationList;
+    if (widget.selectedLocation != null) {
+      _controller.text = widget.selectedLocation!;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   void _filterData(String query) {
@@ -171,26 +215,22 @@ class _ChooseScreenState extends State<ChooseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          SizedBox(
-            height: 50,
-            width: 320,
-            child: TextField(
-              onChanged: _filterData,
-              controller: _controller,
-              autofocus: false,
-              decoration: InputDecoration(
-                hintText: widget.hintText ?? "Search...",
-                suffixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: Colors.grey),
-                  borderRadius: BorderRadius.circular(10),
-                ),
+        title: SizedBox(
+          height: 50,
+          child: TextField(
+            onChanged: _filterData,
+            controller: _controller,
+            decoration: InputDecoration(
+              hintText: widget.hintText ?? "Search...",
+              suffixIcon: const Icon(Icons.search),
+              border: OutlineInputBorder(
+                borderSide: const BorderSide(width: 1, color: Colors.grey),
+                borderRadius: BorderRadius.circular(10),
               ),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
             ),
           ),
-          const SizedBox(width: 30),
-        ],
+        ),
       ),
       body:
           filteredData.isEmpty
@@ -220,11 +260,14 @@ class _ChooseScreenState extends State<ChooseScreen> {
                           horizontal: 10,
                           vertical: 15,
                         ),
-                        decoration: const BoxDecoration(
-                          border: Border(
+                        decoration: BoxDecoration(
+                          border: const Border(
                             bottom: BorderSide(width: 1, color: Colors.grey),
                           ),
-                          color: Colors.transparent,
+                          color:
+                              value.toString() == widget.selectedLocation
+                                  ? Colors.grey[200]
+                                  : Colors.transparent,
                         ),
                         child: Text(value.toString()),
                       ),
