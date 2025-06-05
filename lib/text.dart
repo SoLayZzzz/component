@@ -68,7 +68,7 @@ class Text16 extends StatelessWidget {
       text,
       style: TextStyle(
         color: color,
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: fontWeight,
         overflow: textOverflow,
         decoration: textDecoration,

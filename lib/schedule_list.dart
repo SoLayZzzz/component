@@ -111,7 +111,7 @@ class _ScheduleListState extends State<ScheduleList> {
                   onTap: widget.onTap,
                   child: Container(
                     height: 35,
-                    width: 130,
+                    width: 120,
                     decoration: BoxDecoration(
                       color: widget.buttonBackgroundColor,
                       borderRadius: BorderRadius.circular(10),

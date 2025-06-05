@@ -1,9 +1,9 @@
-import 'package:component/text.dart';
 import 'package:flutter/material.dart';
 
 class DatePicker extends StatefulWidget {
   const DatePicker({
     super.key,
+    this.fontSize = 10,
     this.onSeclectDate,
     this.text = "Date",
     this.height = 60,
@@ -12,7 +12,7 @@ class DatePicker extends StatefulWidget {
     this.backgroundColor,
     this.selectedDateColor,
     this.assetImage = const AssetImage("images/assets/ic_flag.png"),
-    this.showCurrentDateAuto = true, // New property
+    this.showCurrentDateAuto = true,
   });
 
   final Function(String formarttDate)? onSeclectDate;
@@ -22,7 +22,8 @@ class DatePicker extends StatefulWidget {
   final Color? backgroundColor;
   final Color? selectedDateColor;
   final AssetImage? assetImage;
-  final bool showCurrentDateAuto; // New property
+  final double? fontSize;
+  final bool showCurrentDateAuto;
 
   @override
   State<DatePicker> createState() => _DatePickerState();
@@ -97,12 +98,11 @@ class _DatePickerState extends State<DatePicker> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Image(image: widget.assetImage!, width: 25),
-            Text16(
-              text:
-                  selectDate != null
-                      ? '${selectDate!.year}/${selectDate!.month}/${selectDate!.day}'
-                      : "${widget.text}",
-              color: Colors.black.withAlpha(170),
+            Text(
+              selectDate != null
+                  ? '${selectDate!.year}/${selectDate!.month}/${selectDate!.day}'
+                  : "${widget.text}",
+              style: TextStyle(fontSize: widget.fontSize),
             ),
           ],
         ),
