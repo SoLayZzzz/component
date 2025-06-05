@@ -93,8 +93,7 @@ class _SelectLocationState extends State<SelectLocation> {
     final effectiveTextStyle =
         widget.textStyle ??
         TextStyle(
-          color:
-              widget.isEnabled ? Colors.black : Colors.black.withOpacity(0.5),
+          color: widget.isEnabled ? Colors.black : Colors.black,
           fontSize: 16,
         );
 

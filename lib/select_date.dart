@@ -11,6 +11,8 @@ class DatePicker extends StatefulWidget {
     this.allowPastDates = false,
     this.backgroundColor,
     this.selectedDateColor,
+    this.assetImage = const AssetImage("images/assets/ic_flag.png"),
+    this.showCurrentDateAuto = true,
   });
 
   final Function(String formarttDate)? onSeclectDate;
@@ -19,6 +21,8 @@ class DatePicker extends StatefulWidget {
   final bool allowPastDates;
   final Color? backgroundColor;
   final Color? selectedDateColor;
+  final AssetImage? assetImage;
+  final bool showCurrentDateAuto;
 
   @override
   State<DatePicker> createState() => _DatePickerState();
@@ -26,6 +30,15 @@ class DatePicker extends StatefulWidget {
 
 class _DatePickerState extends State<DatePicker> {
   DateTime? selectDate;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.showCurrentDateAuto) {
+      selectDate = DateTime.now();
+      _formatAndSendDate(selectDate!);
+    }
+  }
 
   Future<void> _selectDate() async {
     final DateTime now = DateTime.now();
@@ -55,28 +68,24 @@ class _DatePickerState extends State<DatePicker> {
       setState(() {
         selectDate = pickedDate;
       });
+      _formatAndSendDate(pickedDate);
+    }
+  }
 
-      // yyyy/mm/dd
-      final formattedDate =
-          "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
+  void _formatAndSendDate(DateTime date) {
+    // yyyy/mm/dd
+    final formattedDate =
+        "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
 
-      // dd/mm/yyyy
-      // final formattedDate =
-      //     "${pickedDate.day.toString().padLeft(2, '0')}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.year.toString().substring(2)}";
-
-      if (widget.onSeclectDate != null) {
-        widget.onSeclectDate!(formattedDate);
-      }
+    if (widget.onSeclectDate != null) {
+      widget.onSeclectDate!(formattedDate);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // final day = ;
     return GestureDetector(
-      onTap: () {
-        _selectDate();
-      },
+      onTap: _selectDate,
       child: Container(
         height: widget.height,
         width: widget.width,
@@ -87,7 +96,7 @@ class _DatePickerState extends State<DatePicker> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Icon(Icons.calendar_month, color: Colors.black.withAlpha(190)),
+            Image.asset(widget.assetImage!.toString()),
             Text16(
               text:
                   selectDate != null
