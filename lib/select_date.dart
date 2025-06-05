@@ -12,7 +12,7 @@ class DatePicker extends StatefulWidget {
     this.backgroundColor,
     this.selectedDateColor,
     this.assetImage = const AssetImage("images/assets/ic_flag.png"),
-    this.showCurrentDateAuto = true,
+    this.showCurrentDateAuto = true, // New property
   });
 
   final Function(String formarttDate)? onSeclectDate;
@@ -22,7 +22,7 @@ class DatePicker extends StatefulWidget {
   final Color? backgroundColor;
   final Color? selectedDateColor;
   final AssetImage? assetImage;
-  final bool showCurrentDateAuto;
+  final bool showCurrentDateAuto; // New property
 
   @override
   State<DatePicker> createState() => _DatePickerState();
@@ -96,7 +96,7 @@ class _DatePickerState extends State<DatePicker> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Image.asset(widget.assetImage!.toString()),
+            Image(image: widget.assetImage!, width: 25),
             Text16(
               text:
                   selectDate != null
