@@ -11,6 +11,8 @@ class ScheduleList extends StatefulWidget {
     this.qtyChair = 20,
     this.buttonBackgroundColor = Colors.deepOrange,
     this.assetImage = const AssetImage("images/assets/ic_arrow.png"),
+    this.price,
+    this.agencyPrice,
   });
 
   final String startTime, middleTime, endTime;
@@ -18,6 +20,8 @@ class ScheduleList extends StatefulWidget {
   final int qtyChair;
   final Color buttonBackgroundColor;
   final AssetImage? assetImage;
+  final double? price;
+  final double? agencyPrice;
 
   @override
   State<ScheduleList> createState() => _ScheduleListState();
@@ -94,11 +98,11 @@ class _ScheduleListState extends State<ScheduleList> {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: "10.0 \$ (Company) - ",
+                        text: "${widget.price} \$ (Company) - ",
                         style: TextStyle(fontSize: 14),
                       ),
                       TextSpan(
-                        text: "9.0 \$ ",
+                        text: "${widget.agencyPrice} \$ ",
                         style: TextStyle(color: Colors.red, fontSize: 14),
                       ),
                       TextSpan(text: "(Net)", style: TextStyle(fontSize: 14)),
