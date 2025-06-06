@@ -13,6 +13,8 @@ class ScheduleList extends StatefulWidget {
     this.assetImage = const AssetImage("images/assets/ic_arrow.png"),
     this.price,
     this.agencyPrice,
+    this.buttonText = "កក់សំបុត្រ", // New parameter
+    this.isButtonEnabled = true, // New parameter
   });
 
   final String startTime, middleTime, endTime;
@@ -22,6 +24,8 @@ class ScheduleList extends StatefulWidget {
   final AssetImage? assetImage;
   final double? price;
   final double? agencyPrice;
+  final String buttonText; // New parameter
+  final bool isButtonEnabled; // New parameter
 
   @override
   State<ScheduleList> createState() => _ScheduleListState();
@@ -49,8 +53,6 @@ class _ScheduleListState extends State<ScheduleList> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text18(text: widget.startTime, fontWeight: FontWeight.w500),
-                // Text("7:00"),
-                // Image.asset(widget.assetImage.toString()),
                 Image(image: widget.assetImage!),
                 Text18(text: widget.middleTime, fontWeight: FontWeight.w500),
                 Image(image: widget.assetImage!),
@@ -72,7 +74,6 @@ class _ScheduleListState extends State<ScheduleList> {
                       Text14(text: "Luxury Coaster (${widget.qtyChair})"),
                     ],
                   ),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -110,22 +111,33 @@ class _ScheduleListState extends State<ScheduleList> {
                   ),
                 ),
 
-                // Button
-                GestureDetector(
-                  onTap: widget.onTap,
-                  child: Container(
-                    height: 35,
-                    width: 120,
-                    decoration: BoxDecoration(
-                      color: widget.buttonBackgroundColor,
+                // Updated Button with disabled state
+                Opacity(
+                  opacity: widget.isButtonEnabled ? 1.0 : 0.6,
+                  child: Material(
+                    color:
+                        widget.isButtonEnabled
+                            ? widget.buttonBackgroundColor
+                            : Colors.grey,
+                    borderRadius: BorderRadius.circular(10),
+                    child: InkWell(
                       borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "កក់សំបុត្រ",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                      onTap: widget.isButtonEnabled ? widget.onTap : null,
+                      child: Container(
+                        height: 35,
+                        width: 120,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        child: Center(
+                          child: Text(
+                            widget.buttonText,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                     ),
