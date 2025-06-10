@@ -6,8 +6,6 @@ class SelectLocation extends StatefulWidget {
     super.key,
     this.borderRadius,
     this.locationList = const [],
-    this.height = 65,
-    this.width = double.infinity,
     this.backgroundColor,
     this.borderColor = Colors.grey,
     this.borderWidth = 1,
@@ -27,8 +25,7 @@ class SelectLocation extends StatefulWidget {
   final bool showChooseScreen;
   final BorderRadius? borderRadius;
   final List<dynamic> locationList;
-  final double height;
-  final double width;
+
   final Color? backgroundColor;
   final Color? borderColor;
   final double borderWidth;
@@ -100,8 +97,6 @@ class _SelectLocationState extends State<SelectLocation> {
     return GestureDetector(
       onTap: _navigateAndSelect,
       child: Container(
-        height: widget.height,
-        width: widget.width,
         decoration: BoxDecoration(
           color: widget.backgroundColor,
           borderRadius: widget.borderRadius,
@@ -110,43 +105,46 @@ class _SelectLocationState extends State<SelectLocation> {
             color: widget.borderColor!,
           ),
         ),
-        child: Center(
-          child: Row(
-            children: [
-              if (widget.assetImage != null)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Image(
-                    image: widget.assetImage!,
-                    width: 30,
-                    color: widget.isEnabled ? null : Colors.grey,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 18, bottom: 18),
+          child: Center(
+            child: Row(
+              children: [
+                if (widget.assetImage != null)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 13),
+                    child: Image(
+                      image: widget.assetImage!,
+                      width: 24,
+                      color: widget.isEnabled ? null : Colors.grey,
+                    ),
                   ),
-                ),
-              Expanded(
-                child:
-                    widget.isLoading
-                        ? const Padding(
-                          padding: EdgeInsets.only(right: 20),
-                          child: SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
+                Expanded(
+                  child:
+                      widget.isLoading
+                          ? const Padding(
+                            padding: EdgeInsets.only(right: 20),
+                            child: SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                          )
+                          : Text(
+                            selectedText ?? widget.hintText ?? '',
+                            style: effectiveTextStyle,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        )
-                        : Text(
-                          selectedText ?? widget.hintText ?? '',
-                          style: effectiveTextStyle,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-              ),
-              if (!widget.isLoading &&
-                  widget.showChooseScreen &&
-                  widget.isEnabled)
-                const Padding(
-                  padding: EdgeInsets.only(right: 20),
-                  child: Icon(Icons.arrow_drop_down, color: Colors.grey),
                 ),
-            ],
+                if (!widget.isLoading &&
+                    widget.showChooseScreen &&
+                    widget.isEnabled)
+                  const Padding(
+                    padding: EdgeInsets.only(right: 20),
+                    child: Icon(Icons.arrow_drop_down, color: Colors.grey),
+                  ),
+              ],
+            ),
           ),
         ),
       ),
