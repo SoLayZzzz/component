@@ -95,9 +95,11 @@ class _DatePickerState extends State<DatePicker> {
           border: Border.all(width: 1, color: Colors.grey.shade400),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Image(image: widget.assetImage!, width: 25),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 13),
+              child: Image(image: widget.assetImage!, width: 25),
+            ),
             Text(
               selectDate != null
                   ? '${selectDate!.year}/${selectDate!.month}/${selectDate!.day}'
