@@ -20,12 +20,14 @@ class SelectLocation extends StatefulWidget {
     this.isLoading = false,
     this.isEnabled = true,
     this.hintText,
+    this.appBarBackgroundColorChooseScreen,
+    this.titleTextField,
+    this.title,
   });
 
   final bool showChooseScreen;
   final BorderRadius? borderRadius;
   final List<dynamic> locationList;
-
   final Color? backgroundColor;
   final Color? borderColor;
   final double borderWidth;
@@ -39,6 +41,9 @@ class SelectLocation extends StatefulWidget {
   final bool isLoading;
   final bool isEnabled;
   final String? hintText;
+  final Color? appBarBackgroundColorChooseScreen;
+  final String? titleTextField;
+  final String? title;
 
   @override
   State<SelectLocation> createState() => _SelectLocationState();
@@ -69,6 +74,8 @@ class _SelectLocationState extends State<SelectLocation> {
                 hintText: widget.hintText ?? widget.text,
                 noDataIcon: widget.noDataIcon,
                 noDataText: widget.noDataText,
+                appBarBackgroundColor: widget.appBarBackgroundColorChooseScreen,
+                title: widget.titleTextField,
               ),
         ),
       );
@@ -131,7 +138,9 @@ class _SelectLocationState extends State<SelectLocation> {
                             ),
                           )
                           : Text(
-                            selectedText ?? widget.hintText ?? '',
+                            selectedText ??
+                                widget.hintText ??
+                                widget.title.toString(),
                             style: effectiveTextStyle,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -160,6 +169,8 @@ class ChooseScreen extends StatefulWidget {
     this.selectedLocation,
     this.noDataIcon,
     this.noDataText,
+    this.appBarBackgroundColor,
+    this.title,
   });
 
   final List<dynamic> locationList;
@@ -167,6 +178,8 @@ class ChooseScreen extends StatefulWidget {
   final String? selectedLocation;
   final String? noDataText;
   final IconData? noDataIcon;
+  final Color? appBarBackgroundColor;
+  final String? title;
 
   @override
   State<ChooseScreen> createState() => _ChooseScreenState();
@@ -212,13 +225,21 @@ class _ChooseScreenState extends State<ChooseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: widget.appBarBackgroundColor,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
+        ),
         title: SizedBox(
           height: 50,
           child: TextField(
             onChanged: _filterData,
             controller: _controller,
             decoration: InputDecoration(
-              hintText: widget.hintText ?? "Search...",
+              filled: true,
+              fillColor: Colors.white,
+              // hintText: widget.hintText ?? "Search...",
+              labelText: widget.title ?? "Hello",
               suffixIcon: const Icon(Icons.search),
               border: OutlineInputBorder(
                 borderSide: const BorderSide(width: 1, color: Colors.grey),
