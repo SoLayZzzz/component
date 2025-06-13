@@ -46,6 +46,7 @@ class _TextComboBoxState extends State<TextComboBox> {
                 Expanded(
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
+                      dropdownColor: Colors.white,
                       value: selectedValue,
                       isDense: true,
                       onChanged: (String? newValue) {
@@ -70,7 +71,10 @@ class _TextComboBoxState extends State<TextComboBox> {
                               ),
                             );
                           }).toList(),
-                      hint: Text14(text: "Choose", color: Colors.grey.shade700),
+                      hint: Text14(
+                        text: "ជ្រើសរើស",
+                        color: Colors.grey.shade700,
+                      ),
                     ),
                   ),
                 ),
