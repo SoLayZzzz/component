@@ -85,6 +85,7 @@ class _SelectLocationState extends State<SelectLocation> {
                 appBarBackgroundColor: widget.appBarBackgroundColorChooseScreen,
                 title: widget.titleTextField,
                 width: widget.width,
+                suffixIcon: widget.suffixIcon,
               ),
         ),
       );
