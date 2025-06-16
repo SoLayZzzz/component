@@ -26,7 +26,6 @@ class SelectLocation extends StatefulWidget {
     this.hasError = false,
     this.errorText,
     this.suffixIcon,
-    this.width,
   });
 
   final bool showChooseScreen;
@@ -51,7 +50,6 @@ class SelectLocation extends StatefulWidget {
   final bool hasError;
   final String? errorText;
   final String? suffixIcon;
-  final double? width;
 
   @override
   State<SelectLocation> createState() => _SelectLocationState();
@@ -84,7 +82,6 @@ class _SelectLocationState extends State<SelectLocation> {
                 noDataText: widget.noDataText,
                 appBarBackgroundColor: widget.appBarBackgroundColorChooseScreen,
                 title: widget.titleTextField,
-                width: widget.width,
                 suffixIcon: widget.suffixIcon,
               ),
         ),
@@ -192,7 +189,6 @@ class ChooseScreen extends StatefulWidget {
     this.appBarBackgroundColor,
     this.title,
     this.suffixIcon,
-    this.width,
   });
 
   final List<dynamic> locationList;
@@ -203,7 +199,6 @@ class ChooseScreen extends StatefulWidget {
   final Color? appBarBackgroundColor;
   final String? title;
   final String? suffixIcon;
-  final double? width;
 
   @override
   State<ChooseScreen> createState() => _ChooseScreenState();
@@ -255,7 +250,6 @@ class _ChooseScreenState extends State<ChooseScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: SizedBox(
-          width: widget.width,
           height: 50,
           child: TextField(
             onChanged: _filterData,
