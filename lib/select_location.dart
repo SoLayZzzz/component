@@ -238,7 +238,7 @@ class _ChooseScreenState extends State<ChooseScreen> {
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.white,
-              hintText: widget.hintText ?? "Search...",
+              hintText: widget.hintText ?? widget.title,
               // labelText: widget.title ?? "Hello",
               suffixIcon: const Icon(Icons.search),
               border: OutlineInputBorder(
