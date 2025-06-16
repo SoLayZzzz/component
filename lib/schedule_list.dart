@@ -13,8 +13,9 @@ class ScheduleList extends StatefulWidget {
     this.assetImage = const AssetImage("images/assets/ic_arrow.png"),
     this.price,
     this.agencyPrice,
-    this.buttonText = "កក់សំបុត្រ", // New parameter
-    this.isButtonEnabled = true, // New parameter
+    this.buttonText = "កក់សំបុត្រ",
+    this.isButtonEnabled = true,
+    this.textColor,
   });
 
   final String startTime, middleTime, endTime;
@@ -24,8 +25,9 @@ class ScheduleList extends StatefulWidget {
   final AssetImage? assetImage;
   final double? price;
   final double? agencyPrice;
-  final String buttonText; // New parameter
-  final bool isButtonEnabled; // New parameter
+  final String buttonText;
+  final bool isButtonEnabled;
+  final Color? textColor;
 
   @override
   State<ScheduleList> createState() => _ScheduleListState();
@@ -38,7 +40,7 @@ class _ScheduleListState extends State<ScheduleList> {
       width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(color: Colors.grey, offset: Offset(1, 1), blurRadius: 2),
         ],
         borderRadius: BorderRadius.circular(10),
@@ -77,13 +79,11 @@ class _ScheduleListState extends State<ScheduleList> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      Text14(text: "${widget.qtyChair} កៅអី"),
                       Text14(
                         text: "${widget.qtyChair} កៅអី",
-                        color: Colors.blue,
-                      ),
-                      Text14(
-                        text: "${widget.qtyChair} កៅអី",
-                        color: Colors.blue,
+                        color: widget.textColor,
+                        fontWeight: FontWeight.w500,
                       ),
                     ],
                   ),
@@ -99,7 +99,15 @@ class _ScheduleListState extends State<ScheduleList> {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: "${widget.price} \$ (Company) - ",
+                        text: "${widget.price} \$ ",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: widget.textColor,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      TextSpan(
+                        text: "(Company) - ",
                         style: TextStyle(fontSize: 14),
                       ),
                       TextSpan(
