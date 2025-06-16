@@ -44,36 +44,39 @@ class _TextComboBoxState extends State<TextComboBox> {
                   const SizedBox(width: 10),
                 ],
                 Expanded(
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      dropdownColor: Colors.white,
-                      value: selectedValue,
-                      isDense: true,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedValue = newValue;
-                        });
-                        if (newValue != null) {
-                          widget.onValueChanged(newValue);
-                        }
-                      },
-                      items:
-                          widget.listData.map((dynamic value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Row(
-                                children: [
-                                  Text14(
-                                    text: value,
-                                    color: Colors.grey.shade700,
-                                  ),
-                                ],
-                              ),
-                            );
-                          }).toList(),
-                      hint: Text14(
-                        text: "ជ្រើសរើស",
-                        color: Colors.grey.shade700,
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        dropdownColor: Colors.white,
+                        value: selectedValue,
+                        isDense: true,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedValue = newValue;
+                          });
+                          if (newValue != null) {
+                            widget.onValueChanged(newValue);
+                          }
+                        },
+                        items:
+                            widget.listData.map((dynamic value) {
+                              return DropdownMenuItem<String>(
+                                value: value.toString(),
+                                child: Text14(
+                                  text: value.toString(),
+                                  color: Colors.grey.shade700,
+                                ),
+                              );
+                            }).toList(),
+                        hint: Text14(
+                          text: "ជ្រើសរើស",
+                          color: Colors.grey.shade700,
+                        ),
                       ),
                     ),
                   ),
