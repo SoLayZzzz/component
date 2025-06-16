@@ -4,7 +4,7 @@ class Button extends StatelessWidget {
   const Button({
     super.key,
     this.width = double.infinity,
-    this.height = 50,
+    this.height = 60,
     this.color = Colors.black,
     this.child,
     this.border,
