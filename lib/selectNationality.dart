@@ -265,8 +265,11 @@ class _ChooseScreenState extends State<ChooseScreen> {
                     fillColor: Colors.white,
                     hintText: widget.hintText ?? widget.title,
                     suffixIcon: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Image.asset(widget.suffixIcon.toString()),
+                      padding: const EdgeInsets.all(13),
+                      child: Image.asset(
+                        widget.suffixIcon.toString(),
+                        width: 5,
+                      ),
                     ),
                     border: OutlineInputBorder(
                       borderSide: const BorderSide(
