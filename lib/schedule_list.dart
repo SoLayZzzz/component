@@ -9,6 +9,7 @@ class ScheduleList extends StatefulWidget {
     this.endTime = "02:00",
     this.onTap,
     this.qtyChair = 20,
+    this.totalChair = 1,
     this.buttonBackgroundColor = Colors.deepOrange,
     this.assetImage = const AssetImage("images/assets/ic_arrow.png"),
     this.price,
@@ -21,6 +22,7 @@ class ScheduleList extends StatefulWidget {
   final String startTime, middleTime, endTime;
   final VoidCallback? onTap;
   final int qtyChair;
+  final int totalChair;
   final Color buttonBackgroundColor;
   final AssetImage? assetImage;
   final double? price;
@@ -81,7 +83,7 @@ class _ScheduleListState extends State<ScheduleList> {
                     children: [
                       Text14(text: "${widget.qtyChair} កៅអី"),
                       Text14(
-                        text: "${widget.qtyChair} កៅអី",
+                        text: "${widget.totalChair} កៅអី",
                         color: widget.textColor,
                         fontWeight: FontWeight.w500,
                       ),
