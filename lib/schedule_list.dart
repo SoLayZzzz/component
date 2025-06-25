@@ -8,8 +8,8 @@ class ScheduleList extends StatefulWidget {
     this.middleTime = "03:00",
     this.endTime = "02:00",
     this.onTap,
-    this.qtyChair = 20,
-    this.totalChair = 1,
+    this.seatAvailable = 20,
+    this.totalSeat = 1,
     this.buttonBackgroundColor = Colors.deepOrange,
     this.assetImage = const AssetImage("images/assets/ic_arrow.png"),
     this.price,
@@ -21,8 +21,8 @@ class ScheduleList extends StatefulWidget {
 
   final String startTime, middleTime, endTime;
   final VoidCallback? onTap;
-  final int qtyChair;
-  final int totalChair;
+  final int seatAvailable;
+  final int totalSeat;
   final Color buttonBackgroundColor;
   final AssetImage? assetImage;
   final double? price;
@@ -75,15 +75,15 @@ class _ScheduleListState extends State<ScheduleList> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text14(text: "ចំនួនកៅអីនៅសល់"),
-                      Text14(text: "Luxury Coaster (${widget.qtyChair})"),
+                      Text14(text: "Luxury Coaster (${widget.totalSeat})"),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text14(text: "${widget.qtyChair} កៅអី"),
+                      Text14(text: "${widget.seatAvailable} កៅអី"),
                       Text14(
-                        text: "${widget.totalChair} កៅអី",
+                        text: "${widget.totalSeat} កៅអី",
                         color: widget.textColor,
                         fontWeight: FontWeight.w500,
                       ),
