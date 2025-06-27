@@ -129,7 +129,7 @@ class _SelectNationalityState extends State<SelectNationality> {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(
                 children: [
                   if (widget.assetImage != null)
