@@ -134,7 +134,7 @@ class _SelectNationalityState extends State<SelectNationality> {
                 children: [
                   if (widget.assetImage != null)
                     Padding(
-                      padding: const EdgeInsets.only(right: 10),
+                      padding: const EdgeInsets.only(right: 8),
                       child: Image(
                         image: widget.assetImage!,
                         width: 24,
