@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class SelectLocation extends StatefulWidget {
-  SelectLocation({
+  const SelectLocation({
     super.key,
+    required this.hasData,
     this.borderRadius,
     this.locationList = const [],
     this.backgroundColor,
     this.borderColor = Colors.grey,
+    this.activeBorderColor,
     this.borderWidth = 1,
-    this.assetImage = const AssetImage("images/assets/ic_flag.png"),
+    this.assetImage,
     this.text,
     this.showChooseScreen = false,
     this.onTap,
@@ -28,14 +29,16 @@ class SelectLocation extends StatefulWidget {
     this.suffixIcon,
   });
 
-  final bool showChooseScreen;
+  final bool hasData;
+  final Color? activeBorderColor;
   final BorderRadius? borderRadius;
   final List<dynamic> locationList;
   final Color? backgroundColor;
-  final Color? borderColor;
+  final Color borderColor;
   final double borderWidth;
   final AssetImage? assetImage;
-  String? text;
+  final String? text;
+  final bool showChooseScreen;
   final VoidCallback? onTap;
   final ValueChanged<int>? onSelected;
   final String? noDataText;
@@ -64,6 +67,17 @@ class _SelectLocationState extends State<SelectLocation> {
     selectedText = widget.text;
   }
 
+  // Function if it have data back it will be update data
+  @override
+  void didUpdateWidget(covariant SelectLocation oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.text != oldWidget.text) {
+      setState(() {
+        selectedText = widget.text;
+      });
+    }
+  }
+
   void _navigateAndSelect() async {
     if (!widget.isEnabled || widget.isLoading) return;
 
@@ -90,7 +104,6 @@ class _SelectLocationState extends State<SelectLocation> {
       if (result != null && mounted) {
         setState(() {
           selectedText = result["value"];
-          widget.text = selectedText;
         });
         widget.onSelected?.call(result["index"]);
       }
@@ -101,25 +114,27 @@ class _SelectLocationState extends State<SelectLocation> {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveTextStyle =
-        widget.textStyle ??
-        TextStyle(
-          color: widget.isEnabled ? Colors.black : Colors.grey,
-          fontSize: 16,
-        );
+    final effectiveBorderColor =
+        widget.hasError
+            ? Colors.red
+            : (widget.activeBorderColor != null && widget.hasData)
+            ? widget.activeBorderColor!
+            : widget.borderColor;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
           onTap: _navigateAndSelect,
-          child: Container(
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
             decoration: BoxDecoration(
               color: widget.backgroundColor,
               borderRadius: widget.borderRadius,
               border: Border.all(
                 width: widget.borderWidth,
-                color: widget.hasError ? Colors.red : widget.borderColor!,
+                color: effectiveBorderColor,
               ),
             ),
             child: Padding(
@@ -153,8 +168,11 @@ class _SelectLocationState extends State<SelectLocation> {
                                 selectedText ??
                                     widget.hintText ??
                                     widget.title.toString(),
-                                style: effectiveTextStyle.copyWith(
-                                  color: widget.isEnabled ? null : Colors.grey,
+                                style: widget.textStyle?.copyWith(
+                                  color:
+                                      widget.isEnabled
+                                          ? widget.textStyle?.color
+                                          : Colors.grey,
                                 ),
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -212,9 +230,9 @@ class _ChooseScreenState extends State<ChooseScreen> {
   void initState() {
     super.initState();
     filteredData = widget.locationList;
-    if (widget.selectedLocation != null) {
-      _controller.text = widget.selectedLocation!;
-    }
+    _filterData(
+      '',
+    ); // Initially filter with empty string to respect selectedLocation
   }
 
   @override
@@ -225,6 +243,13 @@ class _ChooseScreenState extends State<ChooseScreen> {
 
   void _filterData(String query) {
     setState(() {
+      if (query.isEmpty && widget.selectedLocation != null) {
+        _controller.text = widget.selectedLocation!;
+        _controller.selection = TextSelection.fromPosition(
+          TextPosition(offset: _controller.text.length),
+        );
+      }
+
       filteredData =
           widget.locationList
               .where(
@@ -254,14 +279,18 @@ class _ChooseScreenState extends State<ChooseScreen> {
           child: TextField(
             onChanged: _filterData,
             controller: _controller,
+            autofocus: true,
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.white,
               hintText: widget.hintText ?? widget.title,
-              suffixIcon: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Image.asset(widget.suffixIcon.toString()),
-              ),
+              suffixIcon:
+                  widget.suffixIcon != null
+                      ? Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Image.asset(widget.suffixIcon!),
+                      )
+                      : null,
               border: OutlineInputBorder(
                 borderSide: const BorderSide(width: 1, color: Colors.grey),
                 borderRadius: BorderRadius.circular(10),

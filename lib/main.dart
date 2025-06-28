@@ -37,15 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SelectLocation(
-            borderColor: Colors.red,
-            borderWidth: 10,
-            textStyle: TextStyle(color: Colors.amber),
-          ),
-
-          GenderSelectOption(),
-        ],
+        children: [GenderSelectOption()],
       ),
     );
   }
