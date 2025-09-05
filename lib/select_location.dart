@@ -1,3 +1,4 @@
+import 'package:component/text.dart';
 import 'package:flutter/material.dart';
 
 class SelectLocation extends StatefulWidget {
@@ -164,17 +165,16 @@ class _SelectLocationState extends State<SelectLocation> {
                                   ),
                                 ),
                               )
-                              : Text(
-                                selectedText ??
+                              : Text24(
+                                text:
+                                    selectedText ??
                                     widget.hintText ??
                                     widget.title.toString(),
-                                style: widget.textStyle?.copyWith(
-                                  color:
-                                      widget.isEnabled
-                                          ? widget.textStyle?.color
-                                          : Colors.grey,
-                                ),
-                                overflow: TextOverflow.ellipsis,
+                                color:
+                                    widget.isEnabled
+                                        ? widget.textStyle?.color
+                                        : Colors.grey,
+                                textOverflow: TextOverflow.ellipsis,
                               ),
                     ),
                   ],
@@ -186,10 +186,7 @@ class _SelectLocationState extends State<SelectLocation> {
         if (widget.hasError && widget.errorText != null)
           Padding(
             padding: const EdgeInsets.only(top: 4.0, left: 12.0),
-            child: Text(
-              widget.errorText!,
-              style: const TextStyle(color: Colors.red, fontSize: 12),
-            ),
+            child: Text12(text: widget.errorText!, color: Colors.red),
           ),
       ],
     );
@@ -230,9 +227,7 @@ class _ChooseScreenState extends State<ChooseScreen> {
   void initState() {
     super.initState();
     filteredData = widget.locationList;
-    _filterData(
-      '',
-    ); // Initially filter with empty string to respect selectedLocation
+    _filterData('');
   }
 
   @override
@@ -308,9 +303,9 @@ class _ChooseScreenState extends State<ChooseScreen> {
                   children: [
                     Icon(widget.noDataIcon, size: 50, color: Colors.grey),
                     const SizedBox(height: 10),
-                    Text(
-                      widget.noDataText ?? 'No data found',
-                      style: const TextStyle(color: Colors.grey),
+                    Text24(
+                      text: widget.noDataText ?? 'No data found',
+                      color: Colors.grey,
                     ),
                   ],
                 ),
