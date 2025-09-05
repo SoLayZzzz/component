@@ -165,7 +165,7 @@ class _SelectLocationState extends State<SelectLocation> {
                                   ),
                                 ),
                               )
-                              : Text24(
+                              : Text14(
                                 text:
                                     selectedText ??
                                     widget.hintText ??
